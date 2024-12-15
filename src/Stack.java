@@ -1,7 +1,9 @@
-public class MyStack {
+package Football_Project;
+
+public class Stack {
     private Node top;
 
-    public MyStack() {
+    public Stack() {
         top = null;
     }
 

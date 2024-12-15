@@ -1,3 +1,5 @@
+package Football_Project;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -15,8 +17,8 @@ public class Main {
 //        besiktas.addPlayer(kane);
 //
 //        // Create match scheduler and history stack
-//        MyQueue scheduler = new MyQueue();
-//        MyStack history = new MyStack();
+//        Queue scheduler = new Queue();
+//        Stack history = new Stack();
 //
 //        // Schedule some matches
 //        Match match1 = new Match(galatasaray, fenerbahce);

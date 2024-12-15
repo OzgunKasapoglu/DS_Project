@@ -1,3 +1,5 @@
+package Football_Project;
+
 public class League {
     public static void LeagueUpdate(Match match) {
         int homeScored = match.getAwayScored();

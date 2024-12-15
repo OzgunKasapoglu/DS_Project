@@ -1,7 +1,9 @@
-public class MyLinkedList {
+package Football_Project;
+
+public class LinkedList {
     private Node head;
 
-    public MyLinkedList() {
+    public LinkedList() {
         this.head = null;
     }
 

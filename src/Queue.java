@@ -1,8 +1,10 @@
-public class MyQueue {
+package Football_Project;
+
+public class Queue {
     private Node front;
     private Node rear;
 
-    public MyQueue() {
+    public Queue() {
         this.front = null;
         this.rear = null;
     }
