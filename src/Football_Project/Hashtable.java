@@ -1,7 +1,7 @@
 package Football_Project;
 
 public class Hashtable {
-    private static final int SIZE = 800;  //static ??
+    private static final int SIZE = 450;  //static ??
     private final Node[] table;
 
     public Hashtable() {

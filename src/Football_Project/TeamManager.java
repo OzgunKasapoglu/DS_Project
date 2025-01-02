@@ -18,7 +18,6 @@ public class TeamManager {
     }
 
 
-
     public void removeTeamByID(int id) {
         Team team = (Team) idTable.get(String.valueOf(id));
         if (team != null) {

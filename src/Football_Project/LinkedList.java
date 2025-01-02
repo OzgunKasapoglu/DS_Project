@@ -45,9 +45,9 @@ public class LinkedList {
         int order = 1;
         while (current != null) {
             Player p = current.player;
-            System.out.printf("%d. player's name: %s   ID: %s   position: %s   Goals: %d%n",
+            System.out.printf("%-2d. player's name: %-20s   ID: %-2s   position: %-11s   Goals: %d%n",
                     order, p.getPlayerName(), p.getPlayerID(), p.getPosition(), p.getScoredGoals());
-
+            order++;
             current = current.next;
         }
     }
