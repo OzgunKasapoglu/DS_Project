@@ -20,7 +20,7 @@ public class Queue {
         }
     }
 
-    public Match removeFromSchedule() {
+    public Match playNextMatch() {
         if (front == null) {
             return null;
         } else {
@@ -33,7 +33,7 @@ public class Queue {
         }
     }
 
-    public boolean noGames() {
+    public boolean anyGames() {
         return front == null;
     }
 

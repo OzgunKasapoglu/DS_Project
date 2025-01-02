@@ -1,11 +1,11 @@
 package Football_Project;
 
 public class Team {
-    private final LinkedList playerList; //Bu oyuncuların final olması oyuncu transferinde sorun yaratmaz mı? -Koray
+    private final LinkedList playerList;
     private String teamName;
     private int teamID;
     private int totalPoints;
-    private int goalDifference; //private yerine public yapsak da Galatasaray.teamName şeklinde ulaşsak ya? -Koray
+    private int goalDifference;
 
     public Team(String teamName, int teamID) {
         playerList = new LinkedList();
@@ -31,16 +31,20 @@ public class Team {
         this.teamID = teamID;
     }
 
+    public int getGoalDifference() {
+        return goalDifference;
+    }
+
+    public void setGoalDifference(int goalDifference) {
+        this.goalDifference = goalDifference;
+    }
+
     public int getPoints() {
         return totalPoints;
     }
 
     public void setPoints(int points) {
         this.totalPoints = points;
-    }
-
-    public void setGoalDifference(int goalDifference) {
-        this.goalDifference = goalDifference;
     }
 
     public LinkedList getPlayerList() {
@@ -70,7 +74,7 @@ public class Team {
             return Integer.compare(team.goalDifference, this.goalDifference);
 
         }
-
+        //Bu method silinebilir, benzerini League clasinda yazdik.
     }
 
 }
