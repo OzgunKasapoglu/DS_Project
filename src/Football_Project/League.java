@@ -12,16 +12,22 @@ public class League {
     }
 
     public static void leagueUpdate(Match match) {
-        int homeScored = match.getAwayScored();
-        int awayScored = match.getHomeScored();
+        int homeScored = match.getHomeScored();
+        int awayScored = match.getAwayScored();
+
+        Team homeTeam = match.getHomeTeam();
+        Team awayTeam = match.getAwayTeam();
+
+        homeTeam.updateGoalDifference(homeScored - awayScored);
+        awayTeam.updateGoalDifference(awayScored - homeScored);
 
         if (homeScored > awayScored) {
-            match.getHomeTeam().addPoints(3);
+            homeTeam.addPoints(3);
         } else if (homeScored < awayScored) {
-            match.getAwayTeam().addPoints(3);
+            awayTeam.addPoints(3);
         } else {
-            match.getHomeTeam().addPoints(1);
-            match.getAwayTeam().addPoints(1);
+            homeTeam.addPoints(1);
+            awayTeam.addPoints(1);
         }
     }
 
@@ -45,9 +51,9 @@ public class League {
 
     private int compare(Team t1, Team t2) {
         if (t1.getPoints() != t2.getPoints()) {
-            return t1.getPoints() - t2.getPoints();
+            return t2.getPoints() - t1.getPoints();
         }
-        return t1.getGoalDifference() - t2.getGoalDifference();
+        return t2.getGoalDifference() - t1.getGoalDifference();
     }
 
     public void insert(Team team) {
@@ -63,41 +69,60 @@ public class League {
         }
     }
 
-    private void heapify(int i) {
-        int largest = i;
-        int left = leftChild(i);
-        int right = rightChild(i);
+    private void heapify(Team[] heap, int size, int rootIndex) {
+        int largest = rootIndex;
+        int leftChild = 2 * rootIndex + 1;
+        int rightChild = 2 * rootIndex + 2;
 
-        if (left < size && compare(heap[left], heap[largest]) > 0) { // Hocanin kodunda <= yaziyordu bir kontrol et.
-            largest = left;
-        }
-        if (right < size && compare(heap[right], heap[largest]) > 0) {
-            largest = right;
+        if (leftChild < size && heap[leftChild].compareWith(heap[largest]) < 0) {
+            largest = leftChild;
         }
 
-        if (largest != i) {
-            swap(i, largest);
-            heapify(largest);
+        if (rightChild < size && heap[rightChild].compareWith(heap[largest]) < 0) {
+            largest = rightChild;
+        }
+
+        if (largest != rootIndex) {
+            Team swap = heap[rootIndex];
+            heap[rootIndex] = heap[largest];
+            heap[largest] = swap;
+
+            heapify(heap, size, largest);
         }
     }
 
-    public Team topTeam() {
-        if (size == 0) {
-            System.out.println("League is empty.");
-            return null;
-        }
-        Team max = heap[0];
-        heap[0] = heap[--size];
-        heapify(0);
-        return max;
-    }
+//    public Team topTeam() {
+//        if (size == 0) {
+//            System.out.println("League is empty.");
+//            return null;
+//        }
+//        Team max = heap[0];
+//        heap[0] = heap[--size];
+//        heapify(0);
+//        return max;
+//    }
 
     public void displayRankings() {
+        Team[] tempHeap = new Team[size];
+        System.arraycopy(heap, 0, tempHeap, 0, size);
+        int tempSize = size;
+
         System.out.println("League Rankings:");
-        for (int i = 0; i < size; i++) {
-            Team t = heap[i];
-            System.out.println(t.getTeamName() + " - Points: " + t.getPoints() + ", Goal Difference: " + t.getGoalDifference());
+        for (int i = tempSize / 2 - 1; i >= 0; i--) {
+            heapify(tempHeap, tempSize, i);
+        }
+
+        int rank = 1;
+        while (tempSize > 0) {
+            Team topTeam = tempHeap[0];
+            System.out.println(rank + ". " + topTeam.getTeamName() + " - Points: " + topTeam.getPoints() +
+                    ", Goal Difference: " + topTeam.getGoalDifference());
+            rank++;
+            tempHeap[0] = tempHeap[tempSize - 1];
+            tempSize--;
+            heapify(tempHeap, tempSize, 0);
         }
     }
+
 
 }

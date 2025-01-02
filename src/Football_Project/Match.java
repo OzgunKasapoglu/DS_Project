@@ -12,8 +12,8 @@ public class Match {
         double homeTeamsAdvantageFactor = 0.95;
         this.homeScored = 7 - (int)( homeTeamsAdvantageFactor * (Math.log(Math.random()*19+1) / Math.log(1.5)) );
         this.awayScored = 7 - (int)( Math.log(Math.random()*19+1) / Math.log(1.5) );
-
-    } 
+        League.leagueUpdate(this);
+    }
 
     public Team getHomeTeam() {
         return homeTeam;

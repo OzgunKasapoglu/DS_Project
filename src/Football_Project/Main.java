@@ -3,67 +3,97 @@ package Football_Project;
 public class Main {
 
     public static void main(String[] args) {
-        // Create teams and players (same as before)
+
+        TeamManager teamManager = new TeamManager();
+        PlayerManager playerManager = new PlayerManager();
         Team galatasaray = new Team("Galatasaray", 1);
         Team fenerbahce = new Team("Fenerbahce", 2);
-        Team besiktas = new Team("Besiktas", 3);
-////
-////        // Create players and add to teams
-//        Player messi = new Player("Lionel Messi", 10, "Forward");
-//        galatasaray.addPlayer(messi);
-////        Player ozil = new Player("Mesut Ozil", 20, "Midfielder");
-////        fenerbahce.addPlayer(ozil);
-////        Player kane = new Player("Harry Kane", 30, "Forward");
-////        besiktas.addPlayer(kane);
+        Team besiktas = new Team("Besiktaş JK", 3);
+        Team tottenham = new Team("Tottenham Hotspur", 4);
+        Team bilbao = new Team("Athletic Bilbao", 5);
+        Team frankfurt = new Team("Eintracht Frankfurt", 6);
+        Team roma = new Team("AS Roma", 7);
+        Team lyon = new Team("Olympique Lyon", 8);
+        Team nice = new Team("OGC Nice", 9);
+        Team prag = new Team("SK Slavia Prag", 10);
+        Team anderlecht = new Team("RSC Anderlecht", 11);
+        Team paok = new Team("PAOK", 12);
+        Team Midtjylland = new Team("FC Midtjylland", 13);
+        Team gilloise = new Team("Union Saint-Gilloise", 14);
+        Team twente = new Team("FC Twente Enschede", 15);
+        Team plzen = new Team("FC Viktoria Plzen", 16);
+        Team razgrad = new Team("Ludogorets Razgrad", 17);
+        Team glint = new Team("Glint", 18);
+        Team elfsborg = new Team("IF Elfsborg", 19);
+        Team karabag = new Team("Qarabağ FK", 20);
+        Team rfs = new Team("FC RFS", 21);
+        Team manu = new Team("Manchester United", 22);
+        Team sociedad = new Team("Real Sociedad", 23);
+        Team porto = new Team("FC Porto", 24);
+        Team lazio = new Team("SS Lazio", 25);
+        Team ajax = new Team("Ajax Amsterdam", 26);
+        Team hoffenheim = new Team("TSG 1899 Hoffenheim", 27);
+        Team braga = new Team("SC Braga", 28);
+        Team olympiacos = new Team("Olympiacos", 29);
+        Team kiev = new Team("Dynamo Kiev", 30);
+        Team rangers = new Team("Glasgov Rangers", 31);
+        Team alkmaar = new Team("AZ Alkmaar", 32);
+        Team ferencvaros = new Team("Ferencvaros", 33);
+        Team fcsb = new Team("FCSB", 34);
+        Team malmo = new Team("Malmö FF", 35);
+        Team telaviv = new Team("Maccabi Tel Aviv", 36);
 
-        // Create match scheduler and history stack
+        League europaLeague = new League();
+        europaLeague.insert(galatasaray);
+        europaLeague.insert(fenerbahce);
+        europaLeague.insert(besiktas);
+        europaLeague.insert(tottenham);
+        europaLeague.insert(bilbao);
+        europaLeague.insert(frankfurt);
+        europaLeague.insert(roma);
+        europaLeague.insert(lyon);
+
+
         Queue scheduler = new Queue();
         Stack history = new Stack();
 
-        // Schedule some matches
+
         Match match1 = new Match(galatasaray, fenerbahce);
-        Match match2 = new Match(besiktas, fenerbahce);
+        Match match2 = new Match(besiktas, tottenham);
+        Match match3 = new Match(bilbao, frankfurt);
+        Match match4 = new Match(roma, lyon);
+        Match match5 = new Match(galatasaray, besiktas);
+        Match match6 = new Match(fenerbahce, tottenham);
+        Match match7 = new Match(bilbao, roma);
+        Match match8 = new Match(lyon, frankfurt);
+
         scheduler.addToSchedule(match1);
         scheduler.addToSchedule(match2);
+        scheduler.addToSchedule(match3);
+        scheduler.addToSchedule(match4);
+        scheduler.addToSchedule(match5);
+        scheduler.addToSchedule(match6);
+        scheduler.addToSchedule(match7);
+        scheduler.addToSchedule(match8);
 
-        // Display scheduled matches
+        System.out.println("\nPlanned Matches:");
         scheduler.scheduledGames();
 
-        // Process and record the first match
-        Match matchProcessed1 = scheduler.playNextMatch();
-        System.out.println("Processing Match: " + matchProcessed1.getHomeTeam().getTeamName() +
-                " vs " + matchProcessed1.getAwayTeam().getTeamName());
-        history.addToHistory(matchProcessed1);
+        while (!scheduler.anyGames()) {
+            Match playedMatch = scheduler.playNextMatch();
+            System.out.println("\nPlaying Match: " + playedMatch.getHomeTeam().getTeamName() +
+                    " vs " + playedMatch.getAwayTeam().getTeamName());
 
-        // Process and record the second match
-        Match matchProcessed2 = scheduler.playNextMatch();
-        System.out.println("Processing Match: " + matchProcessed2.getHomeTeam().getTeamName() +
-                " vs " + matchProcessed2.getAwayTeam().getTeamName());
-        history.addToHistory(matchProcessed2);
+            history.addToHistory(playedMatch);
 
-        // Display match history (results)
+            System.out.println("\nUpdated Rankings:");
+            europaLeague.displayRankings();
+        }
+
+        System.out.println("\nMatch History:");
         history.matchHistory();
-        galatasaray.getPlayerList().printPlayers();
 
-        // Add teams to the heap
-        League europaLeague = new League();
-        europaLeague.insert(new Team("Team A", 1));
-        europaLeague.insert(new Team("Team B", 2));
-        europaLeague.insert(new Team("Team C", 3));
-        europaLeague.insert(new Team("Team D", 4));
-
-        // Display the rankings
-        System.out.println("Initial Rankings:");
-        europaLeague.displayRankings();
-
-        // Extract the top-ranked team
-        System.out.println("\nTop-ranked team:");
-        Team topTeam = europaLeague.topTeam();
-        System.out.println(topTeam.getTeamName() + " - Points: " + topTeam.getPoints() +
-                ", Goal Difference: " + topTeam.getGoalDifference());
-
-        // Display updated rankings
-        System.out.println("\nUpdated Rankings:");
+        System.out.println("\nFinal Rankings:");
         europaLeague.displayRankings();
     }
 
