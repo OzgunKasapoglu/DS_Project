@@ -1,7 +1,7 @@
 package Football_Project;
 
 public class PlayerManager {
-    private final Hashtable playerTable;
+    public final Hashtable playerTable;
 
     public PlayerManager() {
         this.playerTable = new Hashtable();

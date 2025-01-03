@@ -3,6 +3,8 @@ package Football_Project;
 public class DataInitializer {
     private final TeamManager teamManager;
     private final PlayerManager playerManager;
+    private final Hashtable teamTable = new Hashtable();
+    private final Hashtable playerTable = new Hashtable();
     Team galatasaray = new Team("Galatasaray", 1);
     Team fenerbahce = new Team("Fenerbahce", 2);
     Team besiktas = new Team("Besiktaş JK", 3);

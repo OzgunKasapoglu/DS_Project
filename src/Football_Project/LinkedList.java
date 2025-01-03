@@ -20,7 +20,6 @@ public class LinkedList {
         }
     }
 
-
     public void deletePlayer(int playerID) {
         if (this.head == null) {
             return;
@@ -40,6 +39,23 @@ public class LinkedList {
         }
     }
 
+    public Player selectPlayer(int playerID) {
+        if (this.head == null) {
+            return null;
+        }
+        if (head.player.getPlayerID() == playerID) {
+            return head.player;
+        }
+        Node current = head;
+        while (current.next != null) {
+            if (current.next.player.getPlayerID() == playerID) {
+                return current.next.player;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
     public void printPlayers() {
         Node current = head;
         int order = 1;
@@ -51,5 +67,4 @@ public class LinkedList {
             current = current.next;
         }
     }
-
 }

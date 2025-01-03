@@ -2,21 +2,23 @@ package Football_Project;
 
 public class League {
     private final int capacity;
-    private final Team[] heap; // Array to store teams
+    private final Team[] heapArray; // Array to store teams
+    private final LinkedList leagueGroups = new LinkedList();
     private int size;
 
     public League() {
-        this.capacity = 32;
-        this.heap = new Team[capacity];
+        this.capacity = 36;
+        this.heapArray = new Team[capacity];
         this.size = 0;
     }
 
-    public static void leagueUpdate(Match match) {
-        int homeScored = match.getHomeScored();
-        int awayScored = match.getAwayScored();
+    // ben indiriyorum. var whatsapp evet oradan arasalim gel.
 
+    public static void leagueUpdate(Match match) {
         Team homeTeam = match.getHomeTeam();
         Team awayTeam = match.getAwayTeam();
+        int homeScored = match.getHomeScored();
+        int awayScored = match.getAwayScored();
 
         homeTeam.updateGoalDifference(homeScored - awayScored);
         awayTeam.updateGoalDifference(awayScored - homeScored);
@@ -29,6 +31,42 @@ public class League {
             homeTeam.addPoints(1);
             awayTeam.addPoints(1);
         }
+
+        for (int i = homeScored; i > 0; i--) {
+            int idOfTheScoredPlayer = homeTeam.getTeamID() * 11 - (int) (Math.random() * 11);
+            Player scoredPlayer = homeTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer);
+
+            if (!(scoredPlayer.getPosition().equals("Goalkeeper"))) {
+                scoredPlayer.addGoals(1);
+            } else {
+                boolean gkScored = Math.random() <= 0.15;
+                if (gkScored) {
+                    scoredPlayer.addGoals(1);
+                } else {
+                    scoredPlayer = homeTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer + ((int) (Math.random() * 10) + 1));
+                    scoredPlayer.addGoals(1);
+                }
+            }
+        }
+
+        for (int i = awayScored; i > 0; i--) {
+            int idOfTheScoredPlayer = awayTeam.getTeamID() * 11 - (int) (Math.random() * 11);
+            Player scoredPlayer = awayTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer);
+
+            if (!(scoredPlayer.getPosition().equals("Goalkeeper"))) {
+                scoredPlayer.addGoals(1);
+            } else {
+                boolean gkScored = Math.random() <= 0.15;
+                if (gkScored) {
+                    scoredPlayer.addGoals(1);
+                } else {
+                    scoredPlayer = awayTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer + ((int) (Math.random() * 10) + 1));
+                    scoredPlayer.addGoals(1);
+                }
+            }
+        }
+
+
     }
 
     private int parent(int i) {
@@ -44,9 +82,9 @@ public class League {
     }
 
     private void swap(int i, int j) {
-        Team temp = heap[i];
-        heap[i] = heap[j];
-        heap[j] = temp;
+        Team temp = heapArray[i];
+        heapArray[i] = heapArray[j];
+        heapArray[j] = temp;
     }
 
     private int compare(Team t1, Team t2) {
@@ -61,9 +99,9 @@ public class League {
             System.out.println("League is full. Can`t add more teams!");
             return;
         }
-        heap[size] = team;
+        heapArray[size] = team;
         int current = size++;
-        while (current > 0 && compare(heap[current], heap[parent(current)]) > 0) {
+        while (current > 0 && compare(heapArray[current], heapArray[parent(current)]) > 0) {
             swap(current, parent(current));
             current = parent(current);
         }
@@ -104,7 +142,7 @@ public class League {
 
     public void displayRankings() {
         Team[] tempHeap = new Team[size];
-        System.arraycopy(heap, 0, tempHeap, 0, size);
+        System.arraycopy(heapArray, 0, tempHeap, 0, size);
         int tempSize = size;
 
         System.out.println("League Rankings:");
@@ -115,8 +153,7 @@ public class League {
         int rank = 1;
         while (tempSize > 0) {
             Team topTeam = tempHeap[0];
-            System.out.println(rank + ". " + topTeam.getTeamName() + " - Points: " + topTeam.getPoints() +
-                    ", Goal Difference: " + topTeam.getGoalDifference());
+            System.out.println(rank + ". " + topTeam.getTeamName() + " - Points: " + topTeam.getPoints() + ", Goal Difference: " + topTeam.getGoalDifference());
             rank++;
             tempHeap[0] = tempHeap[tempSize - 1];
             tempSize--;
