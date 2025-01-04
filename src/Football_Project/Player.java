@@ -2,7 +2,7 @@ package Football_Project;
 
 public class Player {
     private String playerName;
-    private final int playerID;
+    private int playerID;
     private String position;
     private int goalsScored;
 
@@ -25,6 +25,9 @@ public class Player {
         return playerID;
     }
 
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;}
+
     public String getPosition() {
         return position;
     }
@@ -40,4 +43,5 @@ public class Player {
     public void addGoals(int scoredGoals) {
         this.goalsScored += scoredGoals;
     }
+
 }

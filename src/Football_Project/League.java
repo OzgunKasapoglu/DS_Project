@@ -12,8 +12,6 @@ public class League {
         this.size = 0;
     }
 
-    // ben indiriyorum. var whatsapp evet oradan arasalim gel.
-
     public static void leagueUpdate(Match match) {
         Team homeTeam = match.getHomeTeam();
         Team awayTeam = match.getAwayTeam();
@@ -65,9 +63,8 @@ public class League {
                 }
             }
         }
-
-
     }
+
 
     private int parent(int i) {
         return (i - 1) / 2;
@@ -96,7 +93,7 @@ public class League {
 
     public void insert(Team team) {
         if (size == capacity) {
-            System.out.println("League is full. Can`t add more teams!");
+            System.out.println("League is full. Can't add more teams!");
             return;
         }
         heapArray[size] = team;
@@ -128,18 +125,6 @@ public class League {
             heapify(heap, size, largest);
         }
     }
-
-//    public Team topTeam() {
-//        if (size == 0) {
-//            System.out.println("League is empty.");
-//            return null;
-//        }
-//        Team max = heap[0];
-//        heap[0] = heap[--size];
-//        heapify(0);
-//        return max;
-//    }
-
     public void displayRankings() {
         Team[] tempHeap = new Team[size];
         System.arraycopy(heapArray, 0, tempHeap, 0, size);
@@ -160,6 +145,4 @@ public class League {
             heapify(tempHeap, tempSize, 0);
         }
     }
-
-
 }

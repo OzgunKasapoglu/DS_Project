@@ -4,15 +4,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TeamManager teamManager = new TeamManager();
-        PlayerManager playerManager = new PlayerManager();
-
         DataInitializer dataInitializer = new DataInitializer();
+//        dataInitializer.allPlayersAndTeams.printTable();
+        League europaLeague = new League();
+        new GroupStage(DataInitializer.allPlayersAndTeams.getTeamArray());
+        europaLeague.displayRankings();
+    }
 //        dataInitializer.galatasaray.getPlayerList().printPlayers();
 //        dataInitializer.fenerbahce.getPlayerList().printPlayers();
 //        dataInitializer.besiktas.getPlayerList().printPlayers();
-        League europaLeague = new League();
-        Match match = new Match(dataInitializer.galatasaray, dataInitializer.fenerbahce);
+
+//        Match match = new Match(dataInitializer.galatasaray, dataInitializer.fenerbahce);
 
 //        europaLeague.insert(galatasaray);
 //        europaLeague.insert(fenerbahce);
@@ -22,10 +24,9 @@ public class Main {
 //        europaLeague.insert(frankfurt);
 //        europaLeague.insert(roma);
 //        europaLeague.insert(lyon);
-//
-//
-        Queue scheduler = new Queue();
-        Stack history = new Stack();
+
+//        Queue scheduler = new Queue();
+//        Stack history = new Stack();
 //
 //
 //        Match match1 = new Match(dataInitializer.galatasaray, dataInitializer.fenerbahce);
@@ -37,7 +38,7 @@ public class Main {
 //        Match match7 = new Match(bilbao, roma);
 //        Match match8 = new Match(lyon, frankfurt);
 //
-        scheduler.addToSchedule(match);
+//        scheduler.addToSchedule(match);
 //        scheduler.addToSchedule(match2);
 //        scheduler.addToSchedule(match3);
 //        scheduler.addToSchedule(match4);
@@ -46,31 +47,30 @@ public class Main {
 //        scheduler.addToSchedule(match7);
 //        scheduler.addToSchedule(match8);
 //
-        System.out.println("\nPlanned Matches:");
-        scheduler.scheduledGames();
+//        System.out.println("\nPlanned Matches:");
+//        scheduler.scheduledGames();
 //
 //        while (!scheduler.anyGames()) {
-           Match playedMatch = scheduler.playNextMatch();
+//           Match playedMatch = scheduler.playNextMatch();
 //            System.out.println("\nPlaying Match: " + playedMatch.getHomeTeam().getTeamName() +
 //                    " vs " + playedMatch.getAwayTeam().getTeamName());
 //
-            history.addToHistory(playedMatch);
+//            history.addToHistory(playedMatch);
 //
 //            System.out.println("\nUpdated Rankings:");
-//            europaLeague.displayRankings();
+//           europaLeague.displayRankings();
 //        }
 //
-        System.out.println("\nMatch History:");
-        history.matchHistory();
-        //dataInitializer.galatasaray.getPlayerList().printPlayers();
-        //dataInitializer.fenerbahce.getPlayerList().printPlayers();
-        playerManager.playerTable.printHashtable();
-        Object a = (Object)new Team("a",2);
+//        System.out.println("\nMatch History:");
+//        history.matchHistory();
+    //dataInitializer.galatasaray.getPlayerList().printPlayers();
+    //dataInitializer.fenerbahce.getPlayerList().printPlayers();
 
 
 //
 //        System.out.println("\nFinal Rankings:");
 //        europaLeague.displayRankings();
-    }
 
 }
+
+

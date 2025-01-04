@@ -1,112 +1,105 @@
 package Football_Project;
 
 public class Hashtable {
-    private static final int SIZE = 500;  //static ??
+    private final int capacity = 1000;  //static ??
     private final Object[] table;
 
     public Hashtable() {
-        this.table = new Object[SIZE];
+        this.table = new Object[capacity];
 
     }
 
-    private int getHash(int ID) {
-        if (ID < 101) {
-            return ID;
+    public Object[] getEntireArray() {
+        return table;
+    }
+
+    public Team[] getTeamArray() {
+        Team[] teams = new Team[32];
+        for (int i = 0; i < 32; i++) {
+            if (table[i] != null) {
+                teams[i] = (Team) table[i];
+            }
         }
-        return ID % SIZE;
+        return teams;
+    }
+
+    private int Hash(Player player) {
+        int index = player.getPlayerID() + 100 - 1;
+        if (index > capacity) return -1;
+        else return index;
+    }
+
+    private int Hash(Team team) {
+        int index = team.getTeamID() - 1;
+        if (index > 100) return -1;
+        else return index;
     }
 
     public void put(Team team) {
-        int index = getHash(team.getTeamID());
-        Node newNode = new Node(team.getTeamID(), team);
+
+        int index = Hash(team);
         if (table[index] == null) {
-            table[index] = newNode;
+            table[index] = team;
         } else {
-            Node current = table[index];
-            while (current.next != null) {
-                if (current.key.equals(team.getTeamID())) {
-                    current.value = team;
-                    return;
-                }
-                current = current.next;
+            int i = index;
+            while (table[i] != null) {
+                i++;
             }
-            if (current.key.equals(team.getTeamID())) {
-                current.value = team;
-            } else {
-                current.next = newNode;
-            }
+            table[i] = team;
+            if (i != team.getTeamID()) System.out.printf("Created team %s has its ID changed to %s due to collision.", team.getTeamName(), i);
+            team.setTeamID(i);
         }
     }
+
+
     public void put(Player player) {
-        int hash = getHash(player.getPlayerID());
-        Node newNode = new Node(key, team);
-        if (table[hash] == null) {
-            table[hash] = newNode;
+        int index = Hash(player);
+        if (table[index] == null) {
+            table[index] = player;
         } else {
-            Node current = table[hash];
-            while (current.next != null) {
-                if (current.key.equals(key)) {
-                    current.value = team;
-                    return;
-                }
-                current = current.next;
+            int i = index;
+            while (table[i] != null) {
+                i++;
             }
-            if (current.key.equals(key)) {
-                current.value = team;
-            } else {
-                current.next = newNode;
-            }
+            table[i] = player;
+            player.setPlayerID(i);
         }
     }
 
-    public Object get(String key) {
-        int hash = getHash(key);
-        Node current = table[hash];
-        while (current != null) {
-            if (current.key.equals(key)) {
-                return current.value;
-            }
-            current = current.next;
-        }
-        return null;
+
+    public Team getTeamWithID(int ID) {
+        return (Team)(table[ID]);
     }
 
-    public void remove(String key) {
-        int hash = getHash(key);
-        Node current = table[hash];
-        Node prev = null;
-        while (current != null) {
-            if (current.key.equals(key)) {
-                if (prev == null) {
-                    table[hash] = current.next;
-                } else {
-                    prev.next = current.next;
-                }
-                return;
-            }
-            prev = current;
-            current = current.next;
+    public Player getPlayerWithID(int ID) {
+        return (Player)(table[ID+100-1]);
+    }
+
+    public void remove(Team team) {
+        int index = Hash(team);
+        if (table[index] != null) {
+            table[index] = null;
+        } else {
+            System.out.println("Team not found.");
         }
     }
 
-    public void printHashtable() {
-        for (int i = 0; i < table.length; i++) {
-            Node current = table[i];
-            while (current != null) {
-                System.out.println(current.key + " " + current.value);
-            }
+    public void remove(Player player) {
+        int index = Hash(player);
+        if (table[index] != null) {
+            table[index] = null;
+        } else {
+            System.out.println("Player not found.");
         }
     }
 
-    private static class Node {
-        String key;
-        Object value;
-        Node next;
-
-        public Node(String key, Object value) {
-            this.key = key;
-            this.value = value;
-            this.next = null;
+    public void printTable() {
+        for (int i = 0; i < capacity; i++) {
+            if (table[i] != null) {
+                Team team = (Team) table[i];
+                System.out.println(team.getTeamName());
+            }
         }
     }
 }
+

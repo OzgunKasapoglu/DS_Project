@@ -1,7 +1,7 @@
 package Football_Project;
 
 public class LinkedList {
-    private Node head;
+    Node head;
 
     public LinkedList() {
         this.head = null;
@@ -66,5 +66,15 @@ public class LinkedList {
             order++;
             current = current.next;
         }
+    }
+
+    public double size() {
+        Node current = head;
+        double size = 0;
+        while (current != null) {
+            current = current.next;
+            size++;
+        }
+        return size;
     }
 }

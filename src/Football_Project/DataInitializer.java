@@ -1,10 +1,8 @@
 package Football_Project;
 
+
 public class DataInitializer {
-    private final TeamManager teamManager;
-    private final PlayerManager playerManager;
-    private final Hashtable teamTable = new Hashtable();
-    private final Hashtable playerTable = new Hashtable();
+    public static Hashtable allPlayersAndTeams = new Hashtable();
     Team galatasaray = new Team("Galatasaray", 1);
     Team fenerbahce = new Team("Fenerbahce", 2);
     Team besiktas = new Team("Besiktaş JK", 3);
@@ -37,58 +35,12 @@ public class DataInitializer {
     Team kiev = new Team("Dynamo Kiev", 30);
     Team rangers = new Team("Glasgov Rangers", 31);
     Team alkmaar = new Team("AZ Alkmaar", 32);
-    Team ferencvaros = new Team("Ferencvaros", 33);
-    Team fcsb = new Team("FCSB", 34);
-    Team malmo = new Team("Malmö FF", 35);
-    Team telaviv = new Team("Maccabi Tel Aviv", 36);
 
     public DataInitializer() {
-        this.teamManager = new TeamManager();
-        this.playerManager = new PlayerManager();
-
         initializeTeamsAndPlayers();
     }
 
     public void initializeTeamsAndPlayers() {
-
-        teamManager.addTeam(galatasaray);
-        teamManager.addTeam(fenerbahce);
-        teamManager.addTeam(besiktas);
-        teamManager.addTeam(tottenham);
-        teamManager.addTeam(besiktas);
-        teamManager.addTeam(tottenham);
-        teamManager.addTeam(bilbao);
-        teamManager.addTeam(frankfurt);
-        teamManager.addTeam(roma);
-        teamManager.addTeam(lyon);
-        teamManager.addTeam(nice);
-        teamManager.addTeam(prag);
-        teamManager.addTeam(anderlecht);
-        teamManager.addTeam(paok);
-        teamManager.addTeam(Midtjylland);
-        teamManager.addTeam(gilloise);
-        teamManager.addTeam(twente);
-        teamManager.addTeam(plzen);
-        teamManager.addTeam(razgrad);
-        teamManager.addTeam(glint);
-        teamManager.addTeam(elfsborg);
-        teamManager.addTeam(karabag);
-        teamManager.addTeam(rfs);
-        teamManager.addTeam(manu);
-        teamManager.addTeam(sociedad);
-        teamManager.addTeam(porto);
-        teamManager.addTeam(lazio);
-        teamManager.addTeam(ajax);
-        teamManager.addTeam(hoffenheim);
-        teamManager.addTeam(braga);
-        teamManager.addTeam(olympiacos);
-        teamManager.addTeam(kiev);
-        teamManager.addTeam(rangers);
-        teamManager.addTeam(alkmaar);
-        teamManager.addTeam(ferencvaros);
-        teamManager.addTeam(fcsb);
-        teamManager.addTeam(malmo);
-
 
         // Galatasaray
         Player muslera = new Player("Fernando Muslera", 1, "Goalkeeper");
@@ -114,6 +66,8 @@ public class DataInitializer {
         galatasaray.addPlayer(akgun);
         galatasaray.addPlayer(osimhen);
         galatasaray.addPlayer(icardi);
+
+
 
 // Fenerbahce
         Player livakovic = new Player("Dominik Livakovic", 12, "Goalkeeper");
@@ -392,14 +346,14 @@ public class DataInitializer {
         paok.addPlayer(kotarski);
         paok.addPlayer(vieirinha);
         paok.addPlayer(ingason);
-        prag.addPlayer(crespo);
-        prag.addPlayer(rafaSoares);
-        prag.addPlayer(schwab);
-        prag.addPlayer(kurtic);
-        prag.addPlayer(misic);
-        prag.addPlayer(zivkovic);
-        prag.addPlayer(olivera);
-        prag.addPlayer(akpom);
+        paok.addPlayer(crespo);
+        paok.addPlayer(rafaSoares);
+        paok.addPlayer(schwab);
+        paok.addPlayer(kurtic);
+        paok.addPlayer(misic);
+        paok.addPlayer(zivkovic);
+        paok.addPlayer(olivera);
+        paok.addPlayer(akpom);
 
 // FC Midtjylland
         Player loessl = new Player("Jonas Lössl", 133, "Goalkeeper");
@@ -907,106 +861,6 @@ public class DataInitializer {
         alkmaar.addPlayer(pavlidis);
         alkmaar.addPlayer(odgaard);
         alkmaar.addPlayer(karlsson);
-
-// Ferencvaros
-        Player dibusz = new Player("Dénes Dibusz", 353, "Goalkeeper");
-        Player civic = new Player("Eldar Ćivić", 354, "Defender");
-        Player blazic = new Player("Miha Blažič", 355, "Defender");
-        Player botka = new Player("Endre Botka", 356, "Defender");
-        Player wingo = new Player("Henry Wingo", 357, "Defender");
-        Player laidouni = new Player("Aïssa Laïdouni", 358, "Midfielder");
-        Player esiti = new Player("Anderson Esiti", 359, "Midfielder");
-        Player zubkov = new Player("Oleksandr Zubkov", 360, "Midfielder");
-        Player uzuni = new Player("Myrto Uzuni", 361, "Forward");
-        Player baturina = new Player("Roko Baturina", 362, "Forward");
-        Player mak = new Player("Robert Mak", 363, "Forward");
-
-        ferencvaros.addPlayer(dibusz);
-        ferencvaros.addPlayer(civic);
-        ferencvaros.addPlayer(blazic);
-        ferencvaros.addPlayer(botka);
-        ferencvaros.addPlayer(wingo);
-        ferencvaros.addPlayer(laidouni);
-        ferencvaros.addPlayer(esiti);
-        ferencvaros.addPlayer(zubkov);
-        ferencvaros.addPlayer(uzuni);
-        ferencvaros.addPlayer(baturina);
-        ferencvaros.addPlayer(mak);
-
-// FCSB
-        Player tarnovanu = new Player("Ștefan Târnovanu", 364, "Goalkeeper");
-        Player harut = new Player("Denis Haruț", 365, "Defender");
-        Player cristea = new Player("Iulian Cristea", 366, "Defender");
-        Player tamas = new Player("Gabriel Tamaș", 367, "Defender");
-        Player pantiru = new Player("Ionuț Panțîru", 368, "Defender");
-        Player edjouma = new Player("Malcom Edjouma", 369, "Midfielder");
-        Player oaida = new Player("Ovidiu Oaidă", 370, "Midfielder");
-        Player popescu = new Player("Octavian Popescu", 371, "Midfielder");
-        Player coman = new Player("Florinel Coman", 372, "Forward");
-        Player tanase = new Player("Florin Tănase", 373, "Forward");
-        Player dumiter = new Player("Andrei Dumiter", 374, "Forward");
-
-        fcsb.addPlayer(tarnovanu);
-        fcsb.addPlayer(harut);
-        fcsb.addPlayer(cristea);
-        fcsb.addPlayer(tamas);
-        fcsb.addPlayer(pantiru);
-        fcsb.addPlayer(edjouma);
-        fcsb.addPlayer(oaida);
-        fcsb.addPlayer(popescu);
-        fcsb.addPlayer(coman);
-        fcsb.addPlayer(tanase);
-        fcsb.addPlayer(dumiter);
-
-// Malmö FF
-        Player dahlin = new Player("Johan Dahlin", 375, "Goalkeeper");
-        Player moisander = new Player("Niklas Moisander", 376, "Defender");
-        Player ahmedhodzic = new Player("Anel Ahmedhodžić", 377, "Defender");
-        Player brorsson = new Player("Franz Brorsson", 378, "Defender");
-        Player knudsen = new Player("Jonas Knudsen", 379, "Defender");
-        Player rakip = new Player("Erdal Rakip", 380, "Midfielder");
-        Player innocent = new Player("Bonke Innocent", 381, "Midfielder");
-        Player christiansen = new Player("Anders Christiansen", 382, "Midfielder");
-        Player birmancevic = new Player("Veljko Birmančević", 383, "Forward");
-        Player colak = new Player("Antonio Čolak", 384, "Forward");
-        Player berget = new Player("Jo Inge Berget", 385, "Forward");
-
-        malmo.addPlayer(dahlin);
-        malmo.addPlayer(moisander);
-        malmo.addPlayer(ahmedhodzic);
-        malmo.addPlayer(brorsson);
-        malmo.addPlayer(knudsen);
-        malmo.addPlayer(rakip);
-        malmo.addPlayer(innocent);
-        malmo.addPlayer(christiansen);
-        malmo.addPlayer(birmancevic);
-        malmo.addPlayer(colak);
-        malmo.addPlayer(berget);
-
-// Maccabi Tel Aviv
-        Player peretz = new Player("Daniel Peretz", 386, "Goalkeeper");
-        Player sabag = new Player("Shahar Piven", 387, "Defender");
-        Player hernandez = new Player("Enric Saborit", 388, "Defender");
-        Player davidzada = new Player("Ofir Davidzada", 389, "Defender");
-        Player biton = new Player("Dan Biton", 390, "Midfielder");
-        Player glazer = new Player("Dan Glazer", 391, "Midfielder");
-        Player golasa = new Player("Eyal Golasa", 392, "Midfielder");
-        Player zahavi = new Player("Eran Zahavi", 393, "Forward");
-        Player hoz = new Player("Yonatan Cohen", 394, "Forward");
-        Player blackman = new Player("Nick Blackman", 395, "Forward");
-        Player pesic = new Player("Aleksandar Pešić", 396, "Forward");
-
-        telaviv.addPlayer(peretz);
-        telaviv.addPlayer(sabag);
-        telaviv.addPlayer(hernandez);
-        telaviv.addPlayer(davidzada);
-        telaviv.addPlayer(biton);
-        telaviv.addPlayer(glazer);
-        telaviv.addPlayer(golasa);
-        telaviv.addPlayer(zahavi);
-        telaviv.addPlayer(hoz);
-        telaviv.addPlayer(blackman);
-        telaviv.addPlayer(pesic);
     }
 }
 

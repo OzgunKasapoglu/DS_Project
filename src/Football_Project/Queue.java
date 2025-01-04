@@ -1,7 +1,7 @@
 package Football_Project;
 
 public class Queue {
-    private Node front;
+    Node front;
     private Node rear;
 
     public Queue() {

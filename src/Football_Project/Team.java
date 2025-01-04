@@ -2,6 +2,8 @@ package Football_Project;
 
 public class Team {
     private final LinkedList playerList;
+    private final PlayerBST playerBST;
+    private final TeamBST teamBST;
     private String teamName;
     private int teamID;
     private int totalPoints;
@@ -9,10 +11,26 @@ public class Team {
 
     public Team(String teamName, int teamID) {
         playerList = new LinkedList();
+        playerBST = new PlayerBST();
+        teamBST = new TeamBST();
         this.teamName = teamName;
         this.teamID = teamID;
+        DataInitializer.allPlayersAndTeams.put(this);
         this.totalPoints = 0;
         this.goalDifference = 0;
+
+    }
+
+    public Team(String teamName) {
+        playerList = new LinkedList();
+        playerBST = new PlayerBST();
+        teamBST = new TeamBST();
+        this.teamName = teamName;
+        this.teamID = 1;
+        DataInitializer.allPlayersAndTeams.put(this);
+        this.totalPoints = 0;
+        this.goalDifference = 0;
+
     }
 
     public String getTeamName() {
@@ -39,6 +57,10 @@ public class Team {
         this.goalDifference = goalDifference;
     }
 
+    public void updateGoalDifference(int goalDifference) {
+        this.goalDifference += goalDifference;
+    }
+
     public int getPoints() {
         return totalPoints;
     }
@@ -47,24 +69,38 @@ public class Team {
         this.totalPoints = points;
     }
 
-    public LinkedList getPlayerList() {
-        return playerList;
-    }
-
     public void addPoints(int points) {
         this.totalPoints += points;
     }
 
-    public void updateGoalDifference(int goalDifference) {
-        this.goalDifference += goalDifference;
+    public LinkedList getPlayerList() {
+        return playerList;
     }
 
-    public void addPlayer(Player player) {
-        playerList.addPlayer(player);
+    public PlayerBST getPlayerBST() {
+        return playerBST;
+    }
+
+    public TeamBST getTeamBST() {
+        return teamBST;
     }
 
     public void removePlayer(int playerID) {
         playerList.deletePlayer(playerID);
+        // You will need to implement a remove method in the PlayerBST class
+    }
+
+    public void addPlayer(Player player) {
+        playerList.addPlayer(player);
+        playerBST.insertPlayer(player);
+    }
+
+    public void addTeam(Team team) {
+        teamBST.insertTeam(team);
+    }
+
+    public Player searchPlayer(int playerID) {
+        return playerBST.searchPlayer(playerID);
     }
 
     public int compareWith(Team team) {
@@ -72,9 +108,6 @@ public class Team {
             return Integer.compare(team.totalPoints, this.totalPoints);
         } else {
             return Integer.compare(team.goalDifference, this.goalDifference);
-
         }
-        //Bu method silinebilir, benzerini League clasinda yazdik.
     }
-
 }
