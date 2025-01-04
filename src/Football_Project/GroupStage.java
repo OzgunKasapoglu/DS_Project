@@ -8,7 +8,7 @@ public class GroupStage {
     public GroupStage(Team[] teams) {
         this.teams = teams;
         if (teams.length == 1) {
-            System.out.printf("Winner is: %s", teams[0].getTeamName());
+            System.out.printf("Winner is: %s%n", teams[0].getTeamName());
             return;
         } else if (teams.length <= 16) {
             isKnockout = true;
