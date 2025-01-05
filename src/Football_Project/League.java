@@ -7,7 +7,7 @@ public class League {
     private int size;
 
     public League() {
-        this.capacity = 36;
+        this.capacity = 32;
         this.heapArray = new Team[capacity];
         this.size = 0;
     }
@@ -84,11 +84,12 @@ public class League {
         heapArray[j] = temp;
     }
 
-    private int compare(Team t1, Team t2) {
-        if (t1.getPoints() != t2.getPoints()) {
-            return t2.getPoints() - t1.getPoints();
-        }
-        return t2.getGoalDifference() - t1.getGoalDifference();
+    public Team extractMaxTeam() {
+        Team maxTeam = this.heapArray[0];
+        this.heapArray[0] = this.heapArray[size-1];
+        size--;
+        heapify(0);
+        return maxTeam;
     }
 
     public void insert(Team team) {
@@ -98,51 +99,82 @@ public class League {
         }
         heapArray[size] = team;
         int current = size++;
-        while (current > 0 && compare(heapArray[current], heapArray[parent(current)]) > 0) {
+        while (current > 0 && heapArray[current].compareWith(heapArray[this.parent(current)]) < 0) {
             swap(current, parent(current));
             current = parent(current);
         }
+        heapify(current);
     }
 
-    private void heapify(Team[] heap, int size, int rootIndex) {
+    private void heapify(int rootIndex) {
         int largest = rootIndex;
-        int leftChild = 2 * rootIndex + 1;
-        int rightChild = 2 * rootIndex + 2;
+        int leftChild = leftChild(rootIndex);
+        int rightChild = rightChild(rootIndex);
 
-        if (leftChild < size && heap[leftChild].compareWith(heap[largest]) < 0) {
+        if (leftChild < size && heapArray[leftChild].compareWith(heapArray[largest]) < 0) {
             largest = leftChild;
         }
 
-        if (rightChild < size && heap[rightChild].compareWith(heap[largest]) < 0) {
+        if (rightChild < size && heapArray[rightChild].compareWith(heapArray[largest]) < 0) {
             largest = rightChild;
         }
 
         if (largest != rootIndex) {
-            Team swap = heap[rootIndex];
-            heap[rootIndex] = heap[largest];
-            heap[largest] = swap;
+            Team swap = heapArray[rootIndex];
+            heapArray[rootIndex] = heapArray[largest];
+            heapArray[largest] = swap;
 
-            heapify(heap, size, largest);
+            heapify(largest);
         }
     }
+
     public void displayRankings() {
-        Team[] tempHeap = new Team[size];
-        System.arraycopy(heapArray, 0, tempHeap, 0, size);
-        int tempSize = size;
-
-        System.out.println("League Rankings:");
-        for (int i = tempSize / 2 - 1; i >= 0; i--) {
-            heapify(tempHeap, tempSize, i);
-        }
-
+        System.out.println("League Rankings");
+        System.out.printf("%-20s %-10s %-20s%n", "Team Name", "Points", "Goal Difference");
+        System.out.println("-----------------------------------------------");
         int rank = 1;
-        while (tempSize > 0) {
-            Team topTeam = tempHeap[0];
-            System.out.println(rank + ". " + topTeam.getTeamName() + " - Points: " + topTeam.getPoints() + ", Goal Difference: " + topTeam.getGoalDifference());
+        while (size > 0) {
+            Team topTeam = extractMaxTeam();
+            System.out.printf("%-20s %-10d %-20d%n", topTeam.getTeamName(), topTeam.getPoints(), topTeam.getGoalDifference());
             rank++;
-            tempHeap[0] = tempHeap[tempSize - 1];
-            tempSize--;
-            heapify(tempHeap, tempSize, 0);
         }
     }
+
+//    public Team extractMax() {
+//        Team max = heapArray[0];
+//        heapArray[0] = heapArray[size - 1];
+//        size--;
+//        heapify(heapArray, size, 0);
+//        return max;
+//    }
+//    public void displayRankings() {
+//        Team[] tempHeap = new Team[size];
+//        for (int i = 0; i < size; i++) {
+//            tempHeap[i] = heapArray[i];
+//        }
+//        int tempSize = size;
+//
+//        System.out.println("League Rankings:");
+//        for (int i = tempSize / 2 - 1; i >= 0; i--) {
+//            heapify(tempHeap, tempSize, i);
+//        }
+//
+//        System.out.printf("%-20s %-10s %-20s%n", "Team Name", "Points", "Goal Difference");
+//        System.out.println("-----------------------------------------------");
+//        for (int i = 0; i < size; i++) {
+//            Team team = heapArray[i];
+//            System.out.printf("%-20s %-10d %-20d%n", team.getTeamName(), team.getPoints(), team.getGoalDifference());
+//        }
+//
+//    }
+
+//
+//    // prints the heap
+//    public void printHeap() {
+//        for (int i = 0; i <= currentSize ; i++) {
+//            System.out.print(heap[i] + " ");
+//        }
+//        System.out.println();
+//    }
 }
+//Doğum günün kutlu olsun kral 👑

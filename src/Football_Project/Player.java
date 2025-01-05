@@ -9,6 +9,7 @@ public class Player {
     public Player(String playerName, int playerID, String position) {
         this.playerName = playerName;
         this.playerID = playerID;
+        DataInitializer.allPlayersAndTeams.put(this);
         this.position = position;
         this.goalsScored = 0;
     }

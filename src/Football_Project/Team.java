@@ -18,7 +18,6 @@ public class Team {
         DataInitializer.allPlayersAndTeams.put(this);
         this.totalPoints = 0;
         this.goalDifference = 0;
-
     }
 
     public Team(String teamName) {
@@ -30,7 +29,10 @@ public class Team {
         DataInitializer.allPlayersAndTeams.put(this);
         this.totalPoints = 0;
         this.goalDifference = 0;
+    }
 
+    public void addToLeague(League league) {
+        league.insert(this);
     }
 
     public String getTeamName() {
@@ -105,9 +107,12 @@ public class Team {
 
     public int compareWith(Team team) {
         if (this.totalPoints != team.getPoints()) {
-            return Integer.compare(team.totalPoints, this.totalPoints);
+            return team.totalPoints < this.totalPoints ? -1 : 1;
         } else {
-            return Integer.compare(team.goalDifference, this.goalDifference);
+            if (team.goalDifference == this.goalDifference) return 0;
+            else {
+                return team.goalDifference < this.goalDifference ? -1 : 1;
+            }
         }
     }
 }

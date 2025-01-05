@@ -3,12 +3,13 @@ package Football_Project;
 public class GroupStage {
     private Group[] groups;
     private Team[] teams;
-    private boolean isKnockout;
+    public boolean isKnockout;
 
     public GroupStage(Team[] teams) {
         this.teams = teams;
         if (teams.length == 1) {
             System.out.printf("Winner is: %s%n", teams[0].getTeamName());
+
             return;
         } else if (teams.length <= 16) {
             isKnockout = true;
@@ -22,6 +23,7 @@ public class GroupStage {
 
     private void createGroups() {
         shuffleTeams();
+        char groupChar = 'A';
         for (int i = 0; i < groups.length; i++) {
             Team[] groupedTeams = new Team[isKnockout ? 2 : 4];
             for (int j = 0; j < (isKnockout ? 2 : 4); j++) {
@@ -29,8 +31,18 @@ public class GroupStage {
             }
             Group group = new Group(groupedTeams);
             groups[i] = group;
+            if (!isKnockout) {
+                System.out.println("           Group " + groupChar);
+                System.out.println("--------------------------");
+                group.printStandings();
+                group.printMatches();
+            }
+            groupChar++;
         }
         new GroupStage(qualifiedTeams());
+        while (true) {
+
+        }
     }
 
     private void shuffleTeams() {

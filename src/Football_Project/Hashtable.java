@@ -1,7 +1,7 @@
 package Football_Project;
 
 public class Hashtable {
-    private final int capacity = 1000;  //static ??
+    private final int capacity = 1000;
     private final Object[] table;
 
     public Hashtable() {
@@ -14,6 +14,7 @@ public class Hashtable {
     }
 
     public Team[] getTeamArray() {
+
         Team[] teams = new Team[32];
         for (int i = 0; i < 32; i++) {
             if (table[i] != null) {
@@ -24,7 +25,7 @@ public class Hashtable {
     }
 
     private int Hash(Player player) {
-        int index = player.getPlayerID() + 100 - 1;
+        int index = player.getPlayerID() + 99;
         if (index > capacity) return -1;
         else return index;
     }
@@ -46,7 +47,8 @@ public class Hashtable {
                 i++;
             }
             table[i] = team;
-            if (i != team.getTeamID()) System.out.printf("Created team %s has its ID changed to %s due to collision.", team.getTeamName(), i);
+            if (i != team.getTeamID())
+                System.out.printf("Created team %s has its ID changed to %s due to collision.", team.getTeamName(), i);
             team.setTeamID(i);
         }
     }
@@ -62,17 +64,17 @@ public class Hashtable {
                 i++;
             }
             table[i] = player;
-            player.setPlayerID(i);
+//            player.setPlayerID(i + 99);
         }
     }
 
 
     public Team getTeamWithID(int ID) {
-        return (Team)(table[ID]);
+        return (Team) (table[ID]);
     }
 
     public Player getPlayerWithID(int ID) {
-        return (Player)(table[ID+100-1]);
+        return (Player) (table[ID + 100 - 1]);
     }
 
     public void remove(Team team) {

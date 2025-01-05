@@ -8,13 +8,15 @@ public class Main {
 //        dataInitializer.allPlayersAndTeams.printTable();
         League europaLeague = new League();
         new GroupStage(DataInitializer.allPlayersAndTeams.getTeamArray());
-        europaLeague.displayRankings();
+
     }
+
+
 //        dataInitializer.galatasaray.getPlayerList().printPlayers();
 //        dataInitializer.fenerbahce.getPlayerList().printPlayers();
 //        dataInitializer.besiktas.getPlayerList().printPlayers();
 
-//        Match match = new Match(dataInitializer.galatasaray, dataInitializer.fenerbahce);
+   //     Match match = new Match(DataInitializer.galatasaray, DataInitializer.fenerbahce);
 
 //        europaLeague.insert(galatasaray);
 //        europaLeague.insert(fenerbahce);
