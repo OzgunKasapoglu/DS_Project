@@ -4,10 +4,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DataInitializer dataInitializer = new DataInitializer();
-//        dataInitializer.allPlayersAndTeams.printTable();
-        League europaLeague = new League();
-        new GroupStage(DataInitializer.allPlayersAndTeams.getTeamArray());
+        League a = new League();
+        a.startLeague();
 
     }
 

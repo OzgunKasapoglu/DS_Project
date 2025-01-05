@@ -1,70 +1,36 @@
 package Football_Project;
 
+
 public class League {
-    private final int capacity;
-    private final Team[] heapArray; // Array to store teams
+    private final Team[] heapTeamArray;
+    private final Player[] heapPlayerArray;
     private final LinkedList leagueGroups = new LinkedList();
-    private int size;
+    private int sizeTeam;
+    private int sizePlayer;
 
     public League() {
-        this.capacity = 32;
-        this.heapArray = new Team[capacity];
-        this.size = 0;
+        this.heapTeamArray = new Team[100];
+        this.heapPlayerArray = new Player[1000];
+        this.sizeTeam = 0;
+        this.sizePlayer = 0;
     }
 
-    public static void leagueUpdate(Match match) {
-        Team homeTeam = match.getHomeTeam();
-        Team awayTeam = match.getAwayTeam();
-        int homeScored = match.getHomeScored();
-        int awayScored = match.getAwayScored();
-
-        homeTeam.updateGoalDifference(homeScored - awayScored);
-        awayTeam.updateGoalDifference(awayScored - homeScored);
-
-        if (homeScored > awayScored) {
-            homeTeam.addPoints(3);
-        } else if (homeScored < awayScored) {
-            awayTeam.addPoints(3);
-        } else {
-            homeTeam.addPoints(1);
-            awayTeam.addPoints(1);
-        }
-
-        for (int i = homeScored; i > 0; i--) {
-            int idOfTheScoredPlayer = homeTeam.getTeamID() * 11 - (int) (Math.random() * 11);
-            Player scoredPlayer = homeTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer);
-
-            if (!(scoredPlayer.getPosition().equals("Goalkeeper"))) {
-                scoredPlayer.addGoals(1);
-            } else {
-                boolean gkScored = Math.random() <= 0.15;
-                if (gkScored) {
-                    scoredPlayer.addGoals(1);
-                } else {
-                    scoredPlayer = homeTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer + ((int) (Math.random() * 10) + 1));
-                    scoredPlayer.addGoals(1);
-                }
-            }
-        }
-
-        for (int i = awayScored; i > 0; i--) {
-            int idOfTheScoredPlayer = awayTeam.getTeamID() * 11 - (int) (Math.random() * 11);
-            Player scoredPlayer = awayTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer);
-
-            if (!(scoredPlayer.getPosition().equals("Goalkeeper"))) {
-                scoredPlayer.addGoals(1);
-            } else {
-                boolean gkScored = Math.random() <= 0.15;
-                if (gkScored) {
-                    scoredPlayer.addGoals(1);
-                } else {
-                    scoredPlayer = awayTeam.getPlayerList().selectPlayer(idOfTheScoredPlayer + ((int) (Math.random() * 10) + 1));
-                    scoredPlayer.addGoals(1);
-                }
-            }
-        }
+    public void startLeague() {
+        new DataInitializer();
+        new GroupStage(DataInitializer.allPlayersAndTeams.getTeamArray());
+        insertPresetTeams();
+        insertPresetPlayers();
+        displayRankings();
     }
 
+    public void startLeague(Team[] teams) {
+        new DataInitializer();
+        new GroupStage(teams);
+        for (Team team : teams) {
+            insert(team);
+        }
+        displayRankings();
+    }
 
     private int parent(int i) {
         return (i - 1) / 2;
@@ -79,102 +45,186 @@ public class League {
     }
 
     private void swap(int i, int j) {
-        Team temp = heapArray[i];
-        heapArray[i] = heapArray[j];
-        heapArray[j] = temp;
+        Team temp = heapTeamArray[i];
+        heapTeamArray[i] = heapTeamArray[j];
+        heapTeamArray[j] = temp;
     }
 
     public Team extractMaxTeam() {
-        Team maxTeam = this.heapArray[0];
-        this.heapArray[0] = this.heapArray[size-1];
-        size--;
-        heapify(0);
+        if (sizeTeam == 0) {
+            return null;
+        }
+        Team maxTeam = this.heapTeamArray[0];
+        this.heapTeamArray[0] = this.heapTeamArray[sizeTeam - 1];
+        sizeTeam--;
+        heapifyTeam(0);
         return maxTeam;
     }
 
+    public Player extractMaxPlayer() {
+        if (sizePlayer == 0) {
+            return null;
+        }
+        Player maxPlayer = this.heapPlayerArray[0];
+        this.heapPlayerArray[0] = this.heapPlayerArray[sizePlayer - 1];
+        sizePlayer--;
+        heapifyPlayer(0);
+        return maxPlayer;
+    }
+
     public void insert(Team team) {
-        if (size == capacity) {
+        if (sizeTeam == heapTeamArray.length) {
             System.out.println("League is full. Can't add more teams!");
             return;
         }
-        heapArray[size] = team;
-        int current = size++;
-        while (current > 0 && heapArray[current].compareWith(heapArray[this.parent(current)]) < 0) {
+        heapTeamArray[sizeTeam] = team;
+        int current = sizeTeam++;
+        while (current > 0 && heapTeamArray[current].compareWith(heapTeamArray[this.parent(current)]) > 0) {
             swap(current, parent(current));
             current = parent(current);
         }
-        heapify(current);
+        heapifyTeam(current);
     }
 
-    private void heapify(int rootIndex) {
+    public void insert(Player player) {
+        if (sizePlayer == heapPlayerArray.length) {
+            System.out.println("League is full. Can't add more players!");
+            return;
+        }
+        heapPlayerArray[sizePlayer] = player;
+        int current = sizePlayer;
+        sizePlayer++;
+        while (current > 0) {
+            int parent = this.parent(current);
+            if (heapPlayerArray[current].compareWith(heapPlayerArray[parent]) > 0) {
+                Player swap = heapPlayerArray[current];
+                heapPlayerArray[current] = heapPlayerArray[parent];
+                heapPlayerArray[parent] = swap;
+                current = parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private void heapifyTeam(int rootIndex) {
         int largest = rootIndex;
         int leftChild = leftChild(rootIndex);
         int rightChild = rightChild(rootIndex);
 
-        if (leftChild < size && heapArray[leftChild].compareWith(heapArray[largest]) < 0) {
+        if (leftChild < sizeTeam && heapTeamArray[leftChild].compareWith(heapTeamArray[largest]) > 0) {
             largest = leftChild;
         }
 
-        if (rightChild < size && heapArray[rightChild].compareWith(heapArray[largest]) < 0) {
+        if (rightChild < sizeTeam && heapTeamArray[rightChild].compareWith(heapTeamArray[largest]) > 0) {
             largest = rightChild;
         }
 
         if (largest != rootIndex) {
-            Team swap = heapArray[rootIndex];
-            heapArray[rootIndex] = heapArray[largest];
-            heapArray[largest] = swap;
+            Team swap = heapTeamArray[rootIndex];
+            heapTeamArray[rootIndex] = heapTeamArray[largest];
+            heapTeamArray[largest] = swap;
 
-            heapify(largest);
+            heapifyTeam(largest);
+        }
+    }
+
+    private void heapifyPlayer(int rootIndex) {
+        int largest = rootIndex;
+        int leftChild = leftChild(rootIndex);
+        int rightChild = rightChild(rootIndex);
+
+        if (leftChild < sizePlayer && heapPlayerArray[leftChild].compareWith(heapPlayerArray[largest]) > 0) {
+            largest = leftChild;
+        }
+
+        if (rightChild < sizePlayer && heapPlayerArray[rightChild].compareWith(heapPlayerArray[largest]) > 0) {
+            largest = rightChild;
+        }
+
+        if (largest != rootIndex) {
+            Player swap = heapPlayerArray[rootIndex];
+            heapPlayerArray[rootIndex] = heapPlayerArray[largest];
+            heapPlayerArray[largest] = swap;
+            heapifyPlayer(largest);
+        }
+    }
+
+    public void printTopScorers(int numScorers) {
+        System.out.println("-------------------------------------------");
+        System.out.printf("%35s%n", "Top Scorers:");
+        System.out.println("-------------------------------------------");
+        System.out.printf("%-5s %-20s %-10s%n", "#", "Player Name", "Goals");
+        System.out.println("-------------------------------------------");
+        for (int i = 0; i < numScorers; i++) {
+            Player player = extractMaxPlayer();
+            if (player == null) {
+                break;
+            }
+            System.out.printf("%-5d %-20s %-10d%n", i + 1, player.getPlayerName(), player.getScoredGoals());
+            heapifyPlayer(0);
+        }
+        System.out.println("-------------------------------------------");
+        if (numScorers > 352) {
+            System.out.println("There aren't more than 352 top scorers in the league.");}
+    }
+
+
+    public void insertPresetPlayers() {
+        Team[] teams = {DataInitializer.galatasaray, DataInitializer.fenerbahce, DataInitializer.besiktas,
+                DataInitializer.tottenham, DataInitializer.bilbao, DataInitializer.frankfurt,
+                DataInitializer.roma, DataInitializer.lyon, DataInitializer.nice, DataInitializer.prag,
+                DataInitializer.anderlecht, DataInitializer.paok, DataInitializer.Midtjylland,
+                DataInitializer.gilloise, DataInitializer.twente, DataInitializer.plzen,
+                DataInitializer.razgrad, DataInitializer.glint, DataInitializer.elfsborg,
+                DataInitializer.karabag, DataInitializer.rfs, DataInitializer.manu,
+                DataInitializer.sociedad, DataInitializer.porto, DataInitializer.lazio,
+                DataInitializer.ajax, DataInitializer.hoffenheim, DataInitializer.braga,
+                DataInitializer.olympiacos, DataInitializer.kiev, DataInitializer.rangers,
+                DataInitializer.alkmaar};
+
+        for (Team team : teams) {
+            Node current = team.getPlayerList().head;
+            while (current != null) {
+                insert(current.player);
+                current = current.next;
+            }
+        }
+    }
+
+    public void insertPresetTeams() {
+        Team[] teams = {DataInitializer.galatasaray, DataInitializer.fenerbahce, DataInitializer.besiktas,
+                DataInitializer.tottenham, DataInitializer.bilbao, DataInitializer.frankfurt,
+                DataInitializer.roma, DataInitializer.lyon, DataInitializer.nice, DataInitializer.prag,
+                DataInitializer.anderlecht, DataInitializer.paok, DataInitializer.Midtjylland,
+                DataInitializer.gilloise, DataInitializer.twente, DataInitializer.plzen,
+                DataInitializer.razgrad, DataInitializer.glint, DataInitializer.elfsborg,
+                DataInitializer.karabag, DataInitializer.rfs, DataInitializer.manu,
+                DataInitializer.sociedad, DataInitializer.porto, DataInitializer.lazio,
+                DataInitializer.ajax, DataInitializer.hoffenheim, DataInitializer.braga,
+                DataInitializer.olympiacos, DataInitializer.kiev, DataInitializer.rangers,
+                DataInitializer.alkmaar};
+
+        for (Team team : teams) {
+            insert(team);
         }
     }
 
     public void displayRankings() {
-        System.out.println("League Rankings");
-        System.out.printf("%-20s %-10s %-20s%n", "Team Name", "Points", "Goal Difference");
-        System.out.println("-----------------------------------------------");
+        heapifyTeam(sizePlayer);
+        System.out.println("-------------------------------------------");
+        System.out.printf("%35s%n", "League Rankings:");
+        System.out.println("-------------------------------------------");
+        System.out.printf("%-5s %-20s %-10s %-20s%n", "#", "Team Name", "Points", "Goal Difference");
+        System.out.println("-------------------------------------------");
         int rank = 1;
-        while (size > 0) {
+        while (sizeTeam > 0) {
             Team topTeam = extractMaxTeam();
-            System.out.printf("%-20s %-10d %-20d%n", topTeam.getTeamName(), topTeam.getPoints(), topTeam.getGoalDifference());
+            System.out.printf("%-5d %-20s %-10d %-20d%n", rank, topTeam.getTeamName(), topTeam.getPoints(), topTeam.getGoalDifference());
             rank++;
         }
+        System.out.println("-------------------------------------------");
     }
-
-//    public Team extractMax() {
-//        Team max = heapArray[0];
-//        heapArray[0] = heapArray[size - 1];
-//        size--;
-//        heapify(heapArray, size, 0);
-//        return max;
-//    }
-//    public void displayRankings() {
-//        Team[] tempHeap = new Team[size];
-//        for (int i = 0; i < size; i++) {
-//            tempHeap[i] = heapArray[i];
-//        }
-//        int tempSize = size;
-//
-//        System.out.println("League Rankings:");
-//        for (int i = tempSize / 2 - 1; i >= 0; i--) {
-//            heapify(tempHeap, tempSize, i);
-//        }
-//
-//        System.out.printf("%-20s %-10s %-20s%n", "Team Name", "Points", "Goal Difference");
-//        System.out.println("-----------------------------------------------");
-//        for (int i = 0; i < size; i++) {
-//            Team team = heapArray[i];
-//            System.out.printf("%-20s %-10d %-20d%n", team.getTeamName(), team.getPoints(), team.getGoalDifference());
-//        }
-//
-//    }
-
-//
-//    // prints the heap
-//    public void printHeap() {
-//        for (int i = 0; i <= currentSize ; i++) {
-//            System.out.print(heap[i] + " ");
-//        }
-//        System.out.println();
-//    }
 }
+
 //Doğum günün kutlu olsun kral 👑

@@ -107,11 +107,11 @@ public class Team {
 
     public int compareWith(Team team) {
         if (this.totalPoints != team.getPoints()) {
-            return team.totalPoints < this.totalPoints ? -1 : 1;
+            return this.totalPoints < team.totalPoints ? -1 : 1;
         } else {
             if (team.goalDifference == this.goalDifference) return 0;
             else {
-                return team.goalDifference < this.goalDifference ? -1 : 1;
+                return this.goalDifference < team.goalDifference ? -1 : 1;
             }
         }
     }

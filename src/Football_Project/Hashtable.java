@@ -32,7 +32,7 @@ public class Hashtable {
 
     private int Hash(Team team) {
         int index = team.getTeamID() - 1;
-        if (index > 100) return -1;
+        if (index > 99) return -1;
         else return index;
     }
 
@@ -48,8 +48,8 @@ public class Hashtable {
             }
             table[i] = team;
             if (i != team.getTeamID())
-                System.out.printf("Created team %s has its ID changed to %s due to collision.", team.getTeamName(), i);
-            team.setTeamID(i);
+                System.out.printf("Created team %s has its ID changed to %s due to collision.%n", team.getTeamName(), i);
+            team.setTeamID(i+1);
         }
     }
 

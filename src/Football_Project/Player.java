@@ -45,4 +45,13 @@ public class Player {
         this.goalsScored += scoredGoals;
     }
 
+    public int compareWith(Player other) {
+        if (this.getScoredGoals() > other.getScoredGoals()) {
+            return 1;
+        } else if (this.getScoredGoals() < other.getScoredGoals()) {
+            return -1;
+        } else {
+            return this.getPlayerName().compareTo(other.getPlayerName());
+        }
+    }
 }

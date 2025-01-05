@@ -33,7 +33,7 @@ public class DataInitializer {
     static Team braga = new Team("SC Braga", 28);
     static Team olympiacos = new Team("Olympiacos", 29);
     static Team kiev = new Team("Dynamo Kiev", 30);
-    static Team rangers = new Team("Glasgov Rangers", 31);
+    static Team rangers = new Team("Glasgow Rangers", 31);
     static Team alkmaar = new Team("AZ Alkmaar", 32);
 
     public DataInitializer() {

@@ -3,13 +3,12 @@ package Football_Project;
 public class Group {
     private final Team[] teams;
     private final Match[] matches;
+    boolean isKnockout;
 
-    private int tempHomePoints;
-    private int tempAwayPoints;
-
-    public Group(Team[] teams) {
+    public Group(Team[] teams, boolean isKnockout) {
         this.teams = teams;
         this.matches = new Match[teams.length * (teams.length-1)];
+        this.isKnockout = isKnockout;
         scheduleMatches();
     }
 
@@ -17,14 +16,8 @@ public class Group {
         int index = 0;
         for (int i = 0; i < teams.length; i++) {
             for (int j = i + 1; j < teams.length; j++) {
-                Team homeTeam = teams[i];
-                Team awayTeam = teams[j];
-                tempHomePoints = homeTeam.getPoints();
-                tempAwayPoints = awayTeam.getPoints();
-//                homeTeam.setPoints(0);
-//                awayTeam.setPoints(0);
-                Match match1 = new Match(homeTeam, awayTeam);
-                Match match2 = new Match(awayTeam, homeTeam);
+                Match match1 = new Match(teams[i], teams[j]);
+                Match match2 = new Match(teams[j], teams[i]);
                 matches[index++] = match1;
                 matches[index++] = match2;
             }
@@ -41,20 +34,30 @@ public class Group {
 
     public void printMatches() {
         for (Match match : matches) {
-            System.out.println("Games played:");
-            System.out.println(match.getHomeTeam().getTeamName() + " " + match.getHomeScored() + " - " + match.getAwayScored() + " " + match.getAwayTeam().getTeamName());
+            System.out.println("Match played:");
+            System.out.println(match.getHomeTeam().getTeamName() + " " + match.getHomeScored() +
+                    " - " + match.getAwayScored() + " " + match.getAwayTeam().getTeamName());
             System.out.println(" ");
         }
     }
 
-    private void sortTeams() {
+    private void swapTeams(int firstIndex, int secondIndex) {
+        Team temp = teams[firstIndex];
+        teams[firstIndex] = teams[secondIndex];
+        teams[secondIndex] = temp;
+    }
 
-        for (int i = 0; i < teams.length; i++) {
-            for (int j = i + 1; j < teams.length; j++) {
-                if (teams[i].getPoints() < teams[j].getPoints()) {
-                    Team temp = teams[i];
-                    teams[i] = teams[j];
-                    teams[j] = temp;
+    private void sortTeams() {
+        if (isKnockout) {
+            if (matches[0].getHomeScored() + matches[1].getAwayScored() < matches[1].getHomeScored() + matches[0].getAwayScored()) {
+                swapTeams(0, 1);
+            }
+        } else {
+            for (int i = 0; i < teams.length; i++) {
+                for (int j = i + 1; j < teams.length; j++) {
+                    if (teams[i].compareWith(teams[j]) == -1) {
+                        swapTeams(i, j);
+                    }
                 }
             }
         }
