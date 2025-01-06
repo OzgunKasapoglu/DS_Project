@@ -39,16 +39,16 @@ public class Hashtable {
     public void put(Team team) {
 
         int index = Hash(team);
+        int i = index;
+
         if (table[index] == null) {
             table[index] = team;
         } else {
-            int i = index;
             while (table[i] != null) {
                 i++;
             }
             table[i] = team;
-            if (i != team.getTeamID())
-                System.out.printf("Created team %s has its ID changed to %s due to collision.%n", team.getTeamName(), i);
+            System.out.printf("Created team %s has its ID changed to %s due to collision.%n", team.getTeamName(), i+1);
             team.setTeamID(i+1);
         }
     }
@@ -70,7 +70,7 @@ public class Hashtable {
 
 
     public Team getTeamWithID(int ID) {
-        return (Team) (table[ID]);
+        return (Team) (table[ID-1]);
     }
 
     public Player getPlayerWithID(int ID) {

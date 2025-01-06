@@ -10,8 +10,8 @@ public class Match {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         double homeTeamsAdvantageFactor = 0.95;
-        this.homeScored = 7 - (int)( homeTeamsAdvantageFactor * (Math.log(Math.random()*19+1) / Math.log(1.5)) );
-        this.awayScored = 7 - (int)( Math.log(Math.random()*19+1) / Math.log(1.5) );
+        this.homeScored = 7 - (int) (homeTeamsAdvantageFactor * (Math.log(Math.random() * 19 + 1) / Math.log(1.5)));
+        this.awayScored = 7 - (int) (Math.log(Math.random() * 19 + 1) / Math.log(1.5));
         distributePointsToTeams();
 
         Stack.addToHistory(this);
@@ -34,19 +34,25 @@ public class Match {
     }
 
     private void distributePointsToPlayers(int teamScored, Team team) {
-        for (int i = teamScored; i > 0; i--) {
-            int idOfTheScoredPlayer = team.getTeamID() * 11 - (int) (Math.random() * 11);
-            Player scoredPlayer = team.getPlayerList().selectPlayer(idOfTheScoredPlayer);
+        if (team.getPlayerList().size() > 0) {
+            int idOfTheScoredPlayer = 0;
+            Player scoredPlayer = null;
+            for (int i = teamScored; i > 0; i--) {
+                while (scoredPlayer == null) {
+                    idOfTheScoredPlayer = team.getTeamID() * 11 - (int) (Math.random() * 11);
+                    scoredPlayer = team.getPlayerList().selectPlayer(idOfTheScoredPlayer);
+                }
 
-            if (!(scoredPlayer.getPosition().equals("Goalkeeper"))) {
-                scoredPlayer.addGoals(1);
-            } else {
-                boolean gkScored = Math.random() <= 0.15;
-                if (gkScored) {
+                if (!(scoredPlayer.getPosition().equals("Goalkeeper"))) {
                     scoredPlayer.addGoals(1);
                 } else {
-                    scoredPlayer = team.getPlayerList().selectPlayer(idOfTheScoredPlayer + ((int) (Math.random() * 10) + 1));
-                    scoredPlayer.addGoals(1);
+                    boolean gkScored = Math.random() <= 0.15;
+                    if (gkScored) {
+                        scoredPlayer.addGoals(1);
+                    } else {
+                        scoredPlayer = team.getPlayerList().selectPlayer(idOfTheScoredPlayer + ((int) (Math.random() * 10) + 1));
+                        scoredPlayer.addGoals(1);
+                    }
                 }
             }
         }

@@ -4,9 +4,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        League a = new League();
-        a.startLeague();
 
+        League a = new League();
+        a.startLeague(new Team[]{new Team("abim"), new Team("babba"), new Team("Markiplier"), new Team("Liverpool")});
+        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(32).getTeamName());
+        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(33).getTeamName());
+        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(34).getTeamName());
+        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(35).getTeamName());
     }
 
 
