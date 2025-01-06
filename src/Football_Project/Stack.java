@@ -57,6 +57,7 @@ public class Stack {
      */
     public void clearHistory() {
         top = null;
+        size = 0;
     }
 
     /**

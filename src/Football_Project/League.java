@@ -282,7 +282,7 @@ public class League {
      * Displays the current rankings of teams in the league based on their performance.
      */
     public void displayRankings() {
-        heapifyTeam(sizePlayer);
+        heapifyTeam(sizeTeam);
         System.out.println("--------------------------------------------------------");
         System.out.printf("%50s%n", "Total Points and Goal Difference Rankings");
         System.out.println("--------------------------------------------------------");

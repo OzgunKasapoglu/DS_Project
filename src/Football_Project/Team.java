@@ -114,7 +114,6 @@ public class Team {
      */
     public void addPlayer(Player player) {
         playerList.addPlayer(player);
-        playerBST.insertPlayer(player);
     }
 
     /**

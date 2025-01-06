@@ -29,7 +29,7 @@ public class Match {
 
     /**
      * Constructs a match between a home and away team, with scores based on a random formula
-     * and home team has an advantage.
+     * and home team has an advantage as well as Galatasaray if it is one of the teams matching.
      *
      * @param homeTeam The home team for the match.
      * @param awayTeam The away team for the match.
@@ -38,15 +38,17 @@ public class Match {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         double homeTeamsAdvantageFactor = 0.95;
-        this.homeScored = 7 - (int) (homeTeamsAdvantageFactor * (Math.log(Math.random() * 19 + 1) / Math.log(1.5)));
-        this.awayScored = 7 - (int) (Math.log(Math.random() * 19 + 1) / Math.log(1.5));
+        double galatasarayHomeAdvantageFactor = (homeTeam == DataInitializer.galatasaray) ? 0.9 : 1;
+        double galatasarayAwayAdvantageFactor = (awayTeam == DataInitializer.galatasaray) ? 0.9 : 1;
+        this.homeScored = 7 - (int) (galatasarayHomeAdvantageFactor * homeTeamsAdvantageFactor *
+                (Math.log(Math.random() * 19 + 1) / Math.log(1.5)));
+        this.awayScored = 7 - (int) (galatasarayAwayAdvantageFactor * Math.log(Math.random() * 19 + 1) / Math.log(1.5));
         distributePointsToTeams();
-
         Stack.addToHistory(this);
     }
 
     /**
-     * Constructs a match with an optional final match modifier for home team advantage.
+     * Constructs a match with an optional final match modifier for equalizing homeTeam and awayTeam's advantages.
      *
      * @param homeTeam       The home team for the match.
      * @param awayTeam       The away team for the match.
@@ -56,8 +58,10 @@ public class Match {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         double homeTeamsAdvantageFactor = (isItFinalMatch) ? 1 : 0.95;
-        this.homeScored = 7 - (int) (homeTeamsAdvantageFactor * (Math.log(Math.random() * 19 + 1) / Math.log(1.5)));
-        this.awayScored = 7 - (int) (Math.log(Math.random() * 19 + 1) / Math.log(1.5));
+        double galatasarayHomeAdvantageFactor = (homeTeam == DataInitializer.galatasaray) ? 0 : 1;
+        double galatasarayAwayAdvantageFactor = (awayTeam == DataInitializer.galatasaray) ? 0 : 1;
+        this.homeScored = 7 - (int) (galatasarayHomeAdvantageFactor * homeTeamsAdvantageFactor * (Math.log(Math.random() * 19 + 1) / Math.log(1.5)));
+        this.awayScored = 7 - (int) (galatasarayAwayAdvantageFactor * Math.log(Math.random() * 19 + 1) / Math.log(1.5));
         distributePointsToTeams();
 
         Stack.addToHistory(this);

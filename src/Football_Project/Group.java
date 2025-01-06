@@ -111,6 +111,7 @@ public class Group {
      * @return An array containing the top two teams.
      */
     public Team[] getTopTwoTeams() {
+        sortTeams();
         return new Team[]{teams[0], teams[1]};
     }
 }

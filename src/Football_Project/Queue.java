@@ -52,10 +52,11 @@ public class Queue {
             System.out.println("There are no matches in this queue to play");
         } else {
             Match match = new Match(front.teamHome, front.teamAway);
-            System.out.printf("%-22s | Match.Pts: %-5dTot.Goal.Dif: %3d %n", match.getHomeTeam().getTeamName(), match.getHomeScored(), match.getHomeTeam().getGoalDifference());
-            System.out.printf("%-22s | Match.Pts: %-5dTot.Goal.Dif: %3d %n", match.getAwayTeam().getTeamName(), match.getAwayScored(), match.getAwayTeam().getGoalDifference());
+            Node temp = front;
             front = front.next;
-            if (noGames()) {
+            temp = null;
+
+            if (front == null) {
                 rear = null;
             }
         }
