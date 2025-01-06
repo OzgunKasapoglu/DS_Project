@@ -1,8 +1,17 @@
 package Football_Project;
 
-
+/**
+ * Class: DataInitializer
+ * Description: Initializes and populates data structures with teams and players for the football project.
+ */
 public class DataInitializer {
+
+    /**
+     * A hashtable storing all players and their associated teams.
+     */
     public static Hashtable allPlayersAndTeams = new Hashtable();
+
+    /// Static initialization of teams
     static Team galatasaray = new Team("Galatasaray", 1);
     static Team fenerbahce = new Team("Fenerbahce", 2);
     static Team besiktas = new Team("Besiktaş JK", 3);
@@ -36,10 +45,16 @@ public class DataInitializer {
     static Team rangers = new Team("Glasgow Rangers", 31);
     static Team alkmaar = new Team("AZ Alkmaar", 32);
 
+    /**
+     * Constructs a DataInitializer and initializes the teams and players.
+     */
     public DataInitializer() {
         initializeTeamsAndPlayers();
     }
 
+    /**
+     * Initializes the teams and their players.
+     */
     public void initializeTeamsAndPlayers() {
 
         // Galatasaray
@@ -66,7 +81,6 @@ public class DataInitializer {
         galatasaray.addPlayer(akgun);
         galatasaray.addPlayer(osimhen);
         galatasaray.addPlayer(icardi);
-
 
 
 // Fenerbahce
@@ -275,7 +289,6 @@ public class DataInitializer {
         nice.addPlayer(laborde);
         nice.addPlayer(moffi);
         nice.addPlayer(pepeN);
-
 
 
 // SK Slavia Prag

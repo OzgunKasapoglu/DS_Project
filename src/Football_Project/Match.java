@@ -1,11 +1,39 @@
 package Football_Project;
 
+/**
+ * Class: Match
+ * Description: Represents a football match between two teams, with the ability to calculate scores,
+ * distribute points, and update player statistics.
+ */
 public class Match {
+
+    /**
+     * The home team participating in the match.
+     */
     private final Team homeTeam;
+
+    /**
+     * The away team participating in the match.
+     */
     private final Team awayTeam;
+
+    /**
+     * The number of goals scored by the home team.
+     */
     private final int homeScored;
+
+    /**
+     * The number of goals scored by the away team.
+     */
     private final int awayScored;
 
+    /**
+     * Constructs a match between a home and away team, with scores based on a random formula
+     * and home team has an advantage.
+     *
+     * @param homeTeam The home team for the match.
+     * @param awayTeam The away team for the match.
+     */
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -17,6 +45,28 @@ public class Match {
         Stack.addToHistory(this);
     }
 
+    /**
+     * Constructs a match with an optional final match modifier for home team advantage.
+     *
+     * @param homeTeam       The home team for the match.
+     * @param awayTeam       The away team for the match.
+     * @param isItFinalMatch If false home team gets an advantage.
+     */
+    public Match(Team homeTeam, Team awayTeam, boolean isItFinalMatch) {
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        double homeTeamsAdvantageFactor = (isItFinalMatch) ? 1 : 0.95;
+        this.homeScored = 7 - (int) (homeTeamsAdvantageFactor * (Math.log(Math.random() * 19 + 1) / Math.log(1.5)));
+        this.awayScored = 7 - (int) (Math.log(Math.random() * 19 + 1) / Math.log(1.5));
+        distributePointsToTeams();
+
+        Stack.addToHistory(this);
+    }
+
+    /**
+     * Distributes points to the teams based on the match result and updates their goal difference.
+     * Also, assigns the goals scored to individual players.
+     */
     public void distributePointsToTeams() {
         homeTeam.updateGoalDifference(homeScored - awayScored);
         awayTeam.updateGoalDifference(awayScored - homeScored);
@@ -29,11 +79,18 @@ public class Match {
             homeTeam.addPoints(1);
             awayTeam.addPoints(1);
         }
-        distributePointsToPlayers(homeScored, homeTeam);
-        distributePointsToPlayers(awayScored, awayTeam);
+        distributeGoalsToPlayers(homeScored, homeTeam);
+        distributeGoalsToPlayers(awayScored, awayTeam);
     }
 
-    private void distributePointsToPlayers(int teamScored, Team team) {
+    /**
+     * Distributes goals to the players of the team based on the number of goals scored by the team.
+     * Ensures that the goalkeeper cannot score unless a random event occurs.
+     *
+     * @param teamScored The number of goals scored by the team.
+     * @param team       The team whose players are scoring goals.
+     */
+    private void distributeGoalsToPlayers(int teamScored, Team team) {
         if (team.getPlayerList().size() > 0) {
             int idOfTheScoredPlayer = 0;
             Player scoredPlayer = null;
@@ -46,7 +103,7 @@ public class Match {
                 if (!(scoredPlayer.getPosition().equals("Goalkeeper"))) {
                     scoredPlayer.addGoals(1);
                 } else {
-                    boolean gkScored = Math.random() <= 0.15;
+                    boolean gkScored = Math.random() <= 0.1;
                     if (gkScored) {
                         scoredPlayer.addGoals(1);
                     } else {
@@ -58,6 +115,9 @@ public class Match {
         }
     }
 
+    /**
+     * Below are getter-setter methods to reach private attributes.
+     */
     public Team getHomeTeam() {
         return homeTeam;
     }

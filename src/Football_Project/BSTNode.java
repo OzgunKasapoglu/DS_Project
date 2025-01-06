@@ -1,10 +1,19 @@
 package Football_Project;
 
+/**
+ * Class: BSTNode
+ * Description: Represents a node in a binary search tree, which can store either a Player or a Team.
+ */
 public class BSTNode {
-    private Player player;
-    private Team team;
+    private final Player player;
+    private final Team team;
     private BSTNode left, right;
 
+    /**
+     * Constructs a BSTNode with a player.
+     *
+     * @param player The player to be stored in this node.
+     */
     public BSTNode(Player player) {
         this.player = player;
         this.team = null;
@@ -12,6 +21,11 @@ public class BSTNode {
         this.right = null;
     }
 
+    /**
+     * Constructs a BSTNode with a team.
+     *
+     * @param team The team to be stored in this node.
+     */
     public BSTNode(Team team) {
         this.player = null;
         this.team = team;
@@ -19,6 +33,9 @@ public class BSTNode {
         this.right = null;
     }
 
+    /**
+     * Below are getter-setter methods to reach private attributes.
+     */
     public Player getPlayer() {
         return player;
     }
@@ -31,12 +48,12 @@ public class BSTNode {
         return left;
     }
 
-    public BSTNode getRight() {
-        return right;
-    }
-
     public void setLeft(BSTNode left) {
         this.left = left;
+    }
+
+    public BSTNode getRight() {
+        return right;
     }
 
     public void setRight(BSTNode right) {

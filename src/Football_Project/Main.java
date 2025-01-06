@@ -5,12 +5,19 @@ public class Main {
     public static void main(String[] args) {
 
 
-        League a = new League();
-        a.startLeague(new Team[]{new Team("abim"), new Team("babba"), new Team("Markiplier"), new Team("Liverpool")});
-        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(32).getTeamName());
-        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(33).getTeamName());
-        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(34).getTeamName());
-        System.out.println(DataInitializer.allPlayersAndTeams.getTeamWithID(35).getTeamName());
+        League europaLeague = new League();
+        europaLeague.startLeague();
+        europaLeague.displayRankings();
+        europaLeague.printTopScorers(10);
+
+
+//        Queue queue = new Queue();
+//        queue.addToSchedule(DataInitializer.galatasaray, DataInitializer.fenerbahce);
+//        queue.addToSchedule(DataInitializer.besiktas, DataInitializer.Midtjylland);
+//        queue.scheduledGames();
+//        queue.playNextMatch();
+//        queue.scheduledGames();
+
     }
 
 
@@ -18,7 +25,7 @@ public class Main {
 //        dataInitializer.fenerbahce.getPlayerList().printPlayers();
 //        dataInitializer.besiktas.getPlayerList().printPlayers();
 
-   //     Match match = new Match(DataInitializer.galatasaray, DataInitializer.fenerbahce);
+    //     Match match = new Match(DataInitializer.galatasaray, DataInitializer.fenerbahce);
 
 //        europaLeague.insert(galatasaray);
 //        europaLeague.insert(fenerbahce);
