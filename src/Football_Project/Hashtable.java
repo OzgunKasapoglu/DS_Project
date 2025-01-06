@@ -74,7 +74,7 @@ public class Hashtable {
     }
 
     /**
-     * Adds a team to the hash table. Resolves collisions by linear probing.
+     * Adds a team to the hash table. Resolves collisions by linear probing. After the probing, playerID is updated accordingly.
      *
      * @param team The team to add.
      */
@@ -96,7 +96,7 @@ public class Hashtable {
     }
 
     /**
-     * Adds a player to the hash table. Resolves collisions by linear probing.
+     * Adds a player to the hash table. Resolves collisions by linear probing. After the probing, playerID is updated accordingly.
      *
      * @param player The player to add.
      */
@@ -110,7 +110,8 @@ public class Hashtable {
                 i++;
             }
             table[i] = player;
-//            player.setPlayerID(i + 99);
+            System.out.printf("Created player %s has its ID changed to %s due to collision.%n", player.getPlayerName(), i - 99);
+            player.setPlayerID(i - 99);
         }
     }
 
@@ -131,7 +132,7 @@ public class Hashtable {
      * @return The player with the specified ID, or null if not found.
      */
     public Player getPlayerWithID(int ID) {
-        return (Player) (table[ID + 100 - 1]);
+        return (Player) (table[ID + 99]);
     }
 
     /**
